@@ -135,8 +135,17 @@ def get_char_based_lexical_features():
 
 
 	# freq of letters
+	for letter in string.ascii_lowercase:
+	    letter_upper = letter.upper()
+	    df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter, letter_upper]))
+
+	    
 	# freq of special chars
+	for letter in special_chars:
+	    df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter]))
+
 
 	print(df.head())
 
+# adds 58 lexical char features
 get_char_based_lexical_features()
