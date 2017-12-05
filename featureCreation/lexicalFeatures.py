@@ -66,23 +66,6 @@ special_chars = set(string.punctuation) - set(chosen_punctuation)
 # occurence of prepositions
 
 
-### structural
-
-# number of lines
-# number of blank lines
-# has a greeting
-# has a farewell
-
-
-# paragraph length
-# number of sentences per paragraph
-# number of words per paragraph
-# separators per paragraph
-# quoted content -> special chars?
-# indentation
-# use of greeting statement
-
-
 ### content-specific
 
 # freq of keywords
@@ -102,50 +85,50 @@ special_chars = set(string.punctuation) - set(chosen_punctuation)
 
 
 def get_char_based_lexical_features():
-	# number of chars
-	df['total_chars'] = df['STATUS'].apply(len)
+    # number of chars
+    df['total_chars'] = df['STATUS'].apply(len)
 
 
-	# number of ascii chars
-	df['total_alpha_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isalnum()))
+    # number of ascii chars
+    df['total_alpha_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isalnum()))
 
 
-	# number of ascii uppercase chars
-	df['total_upper_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isupper()))
+    # number of ascii uppercase chars
+    df['total_upper_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isupper()))
 
 
-	# number of ascii lowercase chars
-	df['total_lower_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.islower()))
+    # number of ascii lowercase chars
+    df['total_lower_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.islower()))
 
 
-	# number of digits
-	df['total_digits'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isdigit()))
+    # number of digits
+    df['total_digits'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isdigit()))
 
 
-	# number of whitespaces
-	df['total_whitespaces'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isspace()))
+    # number of whitespaces
+    df['total_whitespaces'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isspace()))
 
 
-	# number of tabs
-	df['total_tabs'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c=='\t'))
+    # number of tabs
+    df['total_tabs'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c == '\t'))
 
 
-	# number of special chars
-	df['total_whitespaces'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c.isspace()))
+    # number of special chars
+    df['special_chars'] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in special_chars))
 
 
-	# freq of letters
-	for letter in string.ascii_lowercase:
-	    letter_upper = letter.upper()
-	    df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter, letter_upper]))
-
-	    
-	# freq of special chars
-	for letter in special_chars:
-	    df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter]))
+    # freq of letters
+    for letter in string.ascii_lowercase:
+        letter_upper = letter.upper()
+        df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter, letter_upper]))
 
 
-	print(df.head())
+    # freq of special chars
+    for letter in special_chars:
+        df['letter_' + letter] = df['STATUS'].apply(lambda s: sum(1 for c in s if c in [letter]))
+
+
+    print(df.head())
 
 # adds 58 lexical char features
 get_char_based_lexical_features()
