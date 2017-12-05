@@ -29,12 +29,10 @@ import pandas as pd
 import re
 
 # configuration
-quoteChars = ['"', "'", '`', '*', '_']
-# build quoted content regexes
 quotedMatchers = []
-for quoteChar in quoteChars:
+for quoteChar in ['"', "'", '`', '*', '_']:
     if quoteChar == "'":
-        matcher = r'([^\w]|^)\'\w[^\']*?\w\'([^\w]|$)'
+        matcher = r'([^\w]|^)\'\w[^\']+?\w\'([^\w]|$)'
 
     elif quoteChar == "*":
         matcher = r'([^\w]|^)\*(?!PROPNAME)[^*]+?\*([^\w]|$)'
@@ -43,7 +41,8 @@ for quoteChar in quoteChars:
         matcher = r'' + re.escape(quoteChar) + '[^' + quoteChar + ']+?' + re.escape(quoteChar)
 
     quotedMatchers.append(matcher)
-    print(matcher)
+quotedMatchers.append(r'\>[^<>?.]+?\<')
+quotedMatchers.append(r'\<[^<>?.]+?\>')
 
 
 def append_structural_features(df, column):
